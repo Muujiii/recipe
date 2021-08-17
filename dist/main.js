@@ -1,0 +1,1 @@
+(()=>{var o;o=[].concat([1,2,3,4,5,6],[44,123])[6],console.log("Too :  ".concat(o))})();
