@@ -1,9 +1,7 @@
-const arr = [1,2,3,4,5,6];
+import p from 'lodash';
+import query from "./model/Search";
+import { add as niilber, multiply as urjver} from "./view/searchView";
 
-let myfunc = a => {
-    console.log(`Too :  ${a}`);
-}
+console.log("Hailt : " + query);
 
-const arr2 = [...arr, 44, 123];
-
-myfunc(arr2[6]);
+console.log("Hoyor toonii niilber : " + niilber(4, 6) + " ba urjver ni " + urjver(4,6));
