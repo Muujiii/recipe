@@ -1,7 +1,7 @@
-import p from 'lodash';
-import query from "./model/Search";
-import { add as niilber, multiply as urjver} from "./view/searchView";
 
-console.log("Hailt : " + query);
+import Search from "./model/Search";
 
-console.log("Hoyor toonii niilber : " + niilber(4, 6) + " ba urjver ni " + urjver(4,6));
+
+let search = new Search('pasta');
+
+search.doSearch().then(r => console.log("Ur dun : " + r));
