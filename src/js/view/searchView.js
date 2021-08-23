@@ -35,13 +35,51 @@ const renderRecipe =  recipe => {
 
 export const clearSearchResult = () => {
     elements.searchResultList.innerHTML = "";
+    elements.pageButtons.innerHTML = "";
 }
 
 export const clearSearchQuery = () => {
     elements.searchInput.value = "";
 }
 export const getInput = () => elements.searchInput.value;
-export const renderRecipes =  recipes => {
+
+export const renderRecipes = (recipes, currentPage = 1, resPerPage =  10) => {
+    // Hailtiin ur dung huudaslaj uzuuleh  
+    // page=2, start=10, end=20
+    const start = (currentPage - 1) * resPerPage;
+    const end = currentPage * resPerPage;
     // hool ntr gej haival end undefined gej orj irne
-    recipes.forEach(el => renderRecipe(el));
-}
+    recipes.slice(start, end).forEach(el => renderRecipe(el));
+
+    // Huudaslaltiin tovchuudiig gargaj ireh
+    const totalPages = Math.ceil(recipes.length / resPerPage);   // 4.2 page gevel 5 page bolgoj vzvvlne
+    renderButtons(currentPage, totalPages);
+};
+
+
+// type ====> 'prev', 'next'
+const createButton = (page, type, direction) => 
+`<button class="btn-inline results__btn--${type}" data-goto=${page}>
+    <span>Хуудас ${page}</span>
+    <svg class="search__icon">
+        <use href="img/icons.svg#icon-triangle-${direction}"></use>
+    </svg>
+</button>`;
+
+const renderButtons = (currentPage, totalPages) => {
+    let buttonHtml;
+
+    if (currentPage === 1 && totalPages > 1) {
+        // 1-r huudsan deer bn, 2-r huudas gedeg tovchiig garga
+        buttonHtml = createButton(2, "next", "right");
+    } else if (currentPage < totalPages) {
+        // Prev bolon Next page ruu shiljih tovchuudiig gargah
+        buttonHtml = createButton(currentPage-1, "prev", "left");
+        buttonHtml += createButton(currentPage+1, "next", "right"); // omnoh 66 deerh html deer zalgagdana
+    } else if (currentPage === totalPages) {
+        // Hamgiin svvliin huudas deer bn. Omnoh rvv shiljvvleh tovchiig l vzvvlne.
+        buttonHtml = createButton(currentPage-1, "prev", "left");
+    }
+
+    elements.pageButtons.insertAdjacentHTML('afterbegin', buttonHtml);
+};
