@@ -2,6 +2,7 @@ require ("@babel/polyfill");
 import Search from "./model/Search";
 import { elements, renderLoader, clearLoader } from "./view/base";
 import * as searchView from './view/searchView';
+import Recipe from "./model/Recipe";
 
 /**
  * Web app tuluv
@@ -51,5 +52,7 @@ elements.pageButtons.addEventListener("click", e => {
         searchView.clearSearchResult();
         searchView.renderRecipes(state.search.result, gotoPageNumber);
     }
+});
 
-})
+const r = new Recipe(47746);
+r.getRecipe();
