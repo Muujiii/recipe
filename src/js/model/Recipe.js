@@ -19,4 +19,13 @@ export default class Recipe {
         this.publisher = result.data.recipe.publisher;
         this.social_rank = result.data.recipe.social_rank;
     }
+
+    calcTime() {
+        // Nairlaga bvrt oiroltsoogoor 5min zartsuulna gej vzii
+        this.time = this.ingredients.length * 5;
+    }
+
+    calcPerPerson() {
+        this.people = 4;
+    }
 }

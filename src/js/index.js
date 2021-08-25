@@ -14,6 +14,9 @@ import Recipe from "./model/Recipe";
 
 const state = {};
 
+/**
+ * Hailtiin Controller = MVCiin  Model ,View 2iig holboj ogdog heshiig Controller gene.  
+ */
 const controlSearch = async () => {
     // 1) Webees hailtiin tulhvvr ugiig gargaj avna
     const query = searchView.getInput();
@@ -54,5 +57,28 @@ elements.pageButtons.addEventListener("click", e => {
     }
 });
 
-const r = new Recipe(47746);
-r.getRecipe();
+/**
+ * Joriin Controller
+ */
+const controlRecipe = async () => {
+    // 1) URL -aas ID -iig salgaj abna.
+    const id = window.location.hash.slice(1);
+
+    // 2) Joriin Modeliig vvsgej ogno
+    state.recipe = new Recipe(id);
+
+    // 3) UI delgetsiig beltgene
+
+
+    // 4) Joroo tataj abchirna
+    await state.recipe.getRecipe(); //async fn uchraas promise butsaana. Promise-iig duustal hvleene gevel .then gej bno esvel omno ni await, deerh fn omno async bichij bno
+
+    // 5)  Joriig gvitsetgeh hugatsaa bolon ortsiig tootsoolno
+    state.recipe.calcTime();
+    state.recipe.calcPerPerson();
+
+    // 6) Joroo delgetsend gargana
+    console.log(state.recipe);
+
+;}
+window.addEventListener('hashchange', controlRecipe);
