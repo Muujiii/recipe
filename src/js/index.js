@@ -3,7 +3,7 @@ import Search from "./model/Search";
 import { elements, renderLoader, clearLoader } from "./view/base";
 import * as searchView from './view/searchView';
 import Recipe from "./model/Recipe";
-import { renderRecipe, clearRecipe} from './view/recipeView';
+import { renderRecipe, clearRecipe, highlightSelectedRecipe} from './view/recipeView';
 
 /**
  * Web app tuluv
@@ -71,7 +71,7 @@ const controlRecipe = async () => {
     // 3) UI delgetsiig beltgene
     clearRecipe();
     renderLoader(elements.recipeDiv); // haij bgaa sumtai icon gargadag
-
+    highlightSelectedRecipe(id);
 
     // 4) Joroo tataj abchirna
     await state.recipe.getRecipe(); //async fn uchraas promise butsaana. Promise-iig duustal hvleene gevel .then gej bno esvel omno ni await, deerh fn omno async bichij bno

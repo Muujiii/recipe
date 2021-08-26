@@ -9,6 +9,15 @@ const renderNairlaga = orts => `
                         </div>
                     </li>
 `;
+
+export const highlightSelectedRecipe = id => {
+     const arr = Array.from(document.querySelectorAll(".results__link"));
+     arr.forEach(el => el.classList.remove("results__link--active"));
+    // results__link--active
+    const domObj = document.querySelector(`a[href*="${id}"]`);
+    if (domObj) domObj.classList.add("results__link--active");
+};
+
 export const clearRecipe = () => {
     // Odoo delgets deer haragdaj bgaa joriig arilgana
     elements.recipeDiv.innerHTML = ""; // tseverleed hooson bolgoj bna;
