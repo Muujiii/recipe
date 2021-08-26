@@ -4,6 +4,9 @@ import { elements, renderLoader, clearLoader } from "./view/base";
 import * as searchView from './view/searchView';
 import Recipe from "./model/Recipe";
 import { renderRecipe, clearRecipe, highlightSelectedRecipe} from './view/recipeView';
+import List from './model/List';
+import * as listview from './view/listView';
+
 
 /**
  * Web app tuluv
@@ -65,25 +68,60 @@ const controlRecipe = async () => {
     // 1) URL -aas ID -iig salgaj abna.
     const id = window.location.hash.slice(1);
 
-    // 2) Joriin Modeliig vvsgej ogno
-    state.recipe = new Recipe(id);
+    // URL deer ID bgaa esehiig shalgana
+    if (id) {
+           // 2) Joriin Modeliig vvsgej ogno
+        state.recipe = new Recipe(id);
 
-    // 3) UI delgetsiig beltgene
-    clearRecipe();
-    renderLoader(elements.recipeDiv); // haij bgaa sumtai icon gargadag
-    highlightSelectedRecipe(id);
+        // 3) UI delgetsiig beltgene
+        clearRecipe();
+        renderLoader(elements.recipeDiv); // haij bgaa sumtai icon gargadag
+        highlightSelectedRecipe(id);
 
-    // 4) Joroo tataj abchirna
-    await state.recipe.getRecipe(); //async fn uchraas promise butsaana. Promise-iig duustal hvleene gevel .then gej bno esvel omno ni await, deerh fn omno async bichij bno
+        // 4) Joroo tataj abchirna
+        await state.recipe.getRecipe(); //async fn uchraas promise butsaana. Promise-iig duustal hvleene gevel .then gej bno esvel omno ni await, deerh fn omno async bichij bno
 
-    // 5)  Joriig gvitsetgeh hugatsaa bolon ortsiig tootsoolno
-    clearLoader();
-    state.recipe.calcTime();
-    state.recipe.calcPerPerson();
+        // 5)  Joriig gvitsetgeh hugatsaa bolon ortsiig tootsoolno
+        clearLoader();
+        state.recipe.calcTime();
+        state.recipe.calcPerPerson();
 
-    // 6) Joroo delgetsend gargana
-    renderRecipe(state.recipe);
+        // 6) Joroo delgetsend gargana
+        renderRecipe(state.recipe); 
+    };
+};
 
-;}
-window.addEventListener('hashchange', controlRecipe);
-window.addEventListener('load', controlRecipe);
+// window.addEventListener('hashchange', controlRecipe);
+// window.addEventListener('load', controlRecipe);
+//        below is same as above
+['hashchange', 'load'].forEach(e => window.addEventListener(e, controlRecipe));
+
+/**
+ * Nairlaganii Controller heregtei
+ */
+
+const controlList = () => {
+    //Nairlaganii modeliig vvsgene
+    state.list = new List();
+
+    // Omno ni haragdaj bsan nairlagiig delgetsees ustgana
+    listview.clearItems();
+
+    // Ug model rvv odoo haragdaj bgaa jornii bvh nairlagiig abch hiine
+   state.recipe.ingredients.forEach(nairlaga => {
+       // Tuhain nairlagiig model rvv hiine
+       state.list.addItem(nairlaga);
+
+      // Tuhain nairlagiig delgetsend gargana
+       listview.renderItem(nairlaga);
+   });
+};
+
+
+
+
+elements.recipeDiv.addEventListener('click', e => {
+    if (e.target.matches('.recipe__btn, .recipe__btn *')){
+        controlList();
+    }
+});
