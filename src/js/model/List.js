@@ -20,7 +20,6 @@ export default class List {
         };
 
         this.items.push(newItem);
-
         return newItem;
     }
 }

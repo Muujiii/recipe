@@ -130,11 +130,13 @@ elements.recipeDiv.addEventListener('click', e => {
 
 elements.shoppingList.addEventListener('click', e => {
     // Click hiisen li elementiin data-itemid attribute-iig shvvj gargaj abah
-    const id = e.target.closest('.shopping__item').dataset.itemid;
+    if (e.target.matches('.btn-tiny, .btn-tiny *')){
+        const id = e.target.closest('.shopping__item').dataset.itemid;
 
-    // Oldson ID-tei ortsiig modeloos ustgana
-    state.list.deleteItem(id);
+        // Oldson ID-tei ortsiig modeloos ustgana
+        state.list.deleteItem(id);
 
-    // Delgetsees iim ID-tei ortsiig olj bas ustgana.
-    listView.deleteItem(id);
+        // Delgetsees iim ID-tei ortsiig olj bas ustgana.
+        listView.deleteItem(id);    
+    }
 });
