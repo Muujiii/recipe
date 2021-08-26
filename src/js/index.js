@@ -5,7 +5,7 @@ import * as searchView from './view/searchView';
 import Recipe from "./model/Recipe";
 import { renderRecipe, clearRecipe, highlightSelectedRecipe} from './view/recipeView';
 import List from './model/List';
-import * as listview from './view/listView';
+import * as listView from './view/listView';
 
 
 /**
@@ -103,17 +103,18 @@ const controlRecipe = async () => {
 const controlList = () => {
     //Nairlaganii modeliig vvsgene
     state.list = new List();
+    //window.tt = state.list;
 
     // Omno ni haragdaj bsan nairlagiig delgetsees ustgana
-    listview.clearItems();
+    listView.clearItems();
 
     // Ug model rvv odoo haragdaj bgaa jornii bvh nairlagiig abch hiine
    state.recipe.ingredients.forEach(nairlaga => {
        // Tuhain nairlagiig model rvv hiine
-       state.list.addItem(nairlaga);
+       const item = state.list.addItem(nairlaga);
 
       // Tuhain nairlagiig delgetsend gargana
-       listview.renderItem(nairlaga);
+       listView.renderItem(item);
    });
 };
 
@@ -124,4 +125,16 @@ elements.recipeDiv.addEventListener('click', e => {
     if (e.target.matches('.recipe__btn, .recipe__btn *')){
         controlList();
     }
+});
+
+
+elements.shoppingList.addEventListener('click', e => {
+    // Click hiisen li elementiin data-itemid attribute-iig shvvj gargaj abah
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+
+    // Oldson ID-tei ortsiig modeloos ustgana
+    state.list.deleteItem(id);
+
+    // Delgetsees iim ID-tei ortsiig olj bas ustgana.
+    listView.deleteItem(id);
 });
