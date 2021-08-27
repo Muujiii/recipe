@@ -16,7 +16,6 @@ export default class Recipe {
         this.image_url= result.data.recipe.image_url;
         this.publisher_url = result.data.recipe.publisher_url;
         this.title = result.data.recipe.title;
-        this.publisher = result.data.recipe.publisher;
         this.social_rank = result.data.recipe.social_rank;
     }
 

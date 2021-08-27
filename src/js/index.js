@@ -6,6 +6,7 @@ import Recipe from "./model/Recipe";
 import { renderRecipe, clearRecipe, highlightSelectedRecipe} from './view/recipeView';
 import List from './model/List';
 import * as listView from './view/listView';
+import Likes from './model/Like';
 
 
 /**
@@ -118,12 +119,36 @@ const controlList = () => {
    });
 };
 
+/**
+ * Like COntroller
+ */
+const controlLike = () => {
+    // 1) Like-iin Modeliig uusgene.
+    if (!state.likes) state.likes = new Likes();
+
+    // 2) Odoo haragdaj bgaa joriin ID-iig olj avah
+    const currentRecipeId = state.recipe.id;
+
+    // 3) Ene joriig like-lasen esehiig shalgah
+    if (state.likes.isLiked(currentRecipeId)) {
+        // Likelsan bol Like-iig ni boliulna
+        state.likes.deleteLike(currentRecipeId);
+        console.log(state.likes);
+    } else {
+        // Laiklaagvi bol lIkelna
+        state.likes.addLike(currentRecipeId, state.recipe.title, state.recipe.publisher, state.recipe.image_url);
+        console.log(state.likes);
+    } 
+}
+
 
 
 
 elements.recipeDiv.addEventListener('click', e => {
     if (e.target.matches('.recipe__btn, .recipe__btn *')){
         controlList();
+    } else if (e.target.matches('.recipe__love, .recipe__love *')) {
+        controlLike();
     }
 });
 
