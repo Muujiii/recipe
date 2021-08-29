@@ -7,6 +7,7 @@ import { renderRecipe, clearRecipe, highlightSelectedRecipe} from './view/recipe
 import List from './model/List';
 import * as listView from './view/listView';
 import Likes from './model/Like';
+import * as likesView from './view/likesView';
 
 
 /**
@@ -18,6 +19,9 @@ import Likes from './model/Like';
  */
 
 const state = {};
+// Like tsesiig haah
+likesView.toggleLikeMenu(0);
+
 
 /**
  * Hailtiin Controller = MVCiin  Model ,View 2iig holboj ogdog heshiig Controller gene.  
@@ -68,6 +72,7 @@ elements.pageButtons.addEventListener("click", e => {
 const controlRecipe = async () => {
     // 1) URL -aas ID -iig salgaj abna.
     const id = window.location.hash.slice(1);
+    if (!state.likes) state.likes = new Likes();
 
     // URL deer ID bgaa esehiig shalgana
     if (id) {
@@ -88,7 +93,7 @@ const controlRecipe = async () => {
         state.recipe.calcPerPerson();
 
         // 6) Joroo delgetsend gargana
-        renderRecipe(state.recipe); 
+        renderRecipe(state.recipe, state.likes.isLiked(id)); 
     };
 };
 
@@ -131,15 +136,27 @@ const controlLike = () => {
 
     // 3) Ene joriig like-lasen esehiig shalgah
     if (state.likes.isLiked(currentRecipeId)) {
+        // Like-iin tsesnees ustgana
+        likesView.deleteLike(currentRecipeId);
+
+
+
         // Likelsan bol Like-iig ni boliulna
         state.likes.deleteLike(currentRecipeId);
-        console.log(state.likes);
+        // Like Button=ii like-lasan bdliig boliulah
+        likesView.toggleLikeBtn(false);
     } else {
         // Laiklaagvi bol lIkelna
-        state.likes.addLike(currentRecipeId, state.recipe.title, state.recipe.publisher, state.recipe.image_url);
-        console.log(state.likes);
+        const newLike = state.likes.addLike(currentRecipeId, state.recipe.title, state.recipe.publisher, state.recipe.image_url);
+       
+        // Like tsesend ene Like-iig oruulah
+        likesView.renderLike(newLike);
+         // Like Button=ii like-lasan bdliig like-lasan bolgoh
+        likesView.toggleLikeBtn(true);
     } 
-}
+
+    likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
+};
 
 
 

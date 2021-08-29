@@ -14,7 +14,7 @@ export const highlightSelectedRecipe = id => {
      const arr = Array.from(document.querySelectorAll(".results__link"));
      arr.forEach(el => el.classList.remove("results__link--active"));
     // results__link--active
-    const domObj = document.querySelector(`a[href*="${id}"]`);
+    const domObj = document.querySelector(`.results__link[href*="${id}"]`);
     if (domObj) domObj.classList.add("results__link--active");
 };
 
@@ -24,7 +24,7 @@ export const clearRecipe = () => {
 
 }
 
-export const renderRecipe = recipe => {
+export const renderRecipe = (recipe, isLiked) => {
     //  Ene joriig delgetsend gargaj vzvvlne
     const html = `
             <figure class="recipe__fig">
@@ -64,7 +64,7 @@ export const renderRecipe = recipe => {
                 </div>
                 <button class="recipe__love">
                     <svg class="header__likes">
-                        <use href="img/icons.svg#icon-heart-outlined"></use>
+                        <use href="img/icons.svg#icon-heart${isLiked ? '' : '-outlined'}"></use>
                     </svg>
                 </button>
             </div>
