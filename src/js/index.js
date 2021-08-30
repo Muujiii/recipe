@@ -19,8 +19,7 @@ import * as likesView from './view/likesView';
  */
 
 const state = {};
-// Like tsesiig haah
-likesView.toggleLikeMenu(0);
+
 
 
 /**
@@ -72,7 +71,7 @@ elements.pageButtons.addEventListener("click", e => {
 const controlRecipe = async () => {
     // 1) URL -aas ID -iig salgaj abna.
     const id = window.location.hash.slice(1);
-    if (!state.likes) state.likes = new Likes();
+    
 
     // URL deer ID bgaa esehiig shalgana
     if (id) {
@@ -100,7 +99,20 @@ const controlRecipe = async () => {
 // window.addEventListener('hashchange', controlRecipe);
 // window.addEventListener('load', controlRecipe);
 //        below is same as above
+
 ['hashchange', 'load'].forEach(e => window.addEventListener(e, controlRecipe));
+
+window.addEventListener('load', e => {
+    // Shineer Like modeliig app dongoj achaallahad uusgene
+    if (!state.likes) state.likes = new Likes();
+
+    // Like tsesiig gargah esehiig shiideh
+    likesView.toggleLikeMenu(state.likes.getNumberOfLikes());
+
+
+    // Like-uud bwal tedgeeriig tsesend nemj haruulna
+    state.likes.likes.forEach(like => likesView.renderLike(like));
+});
 
 /**
  * Nairlaganii Controller heregtei
